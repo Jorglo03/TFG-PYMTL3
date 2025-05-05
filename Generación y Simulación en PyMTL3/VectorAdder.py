@@ -1,10 +1,9 @@
 from pymtl3 import *
 from pymtl3.stdlib.test_utils import run_test_vector_sim
 
-#Suma dos vectores de longitud N
+# Suma dos vectores de longitud N
 class VectorAdder(Component):
-    def construct(s, N=3): 
-        # Valorar si usar implementacion propia de un multiplicador o la que utilice la herramienta
+    def construct(s, N): 
         s.A = [ InPort( 8 ) for _ in range(N) ]
         s.B = [ InPort( 8 ) for _ in range(N) ]
         s.C = [ OutPort( 8 ) for _ in range(N) ]
@@ -14,8 +13,9 @@ class VectorAdder(Component):
             for i in range(N):
                 s.C[i] @= s.A[i] + s.B[i]
     
-    # def line_trace(s):
-    #     return f"{[a.uint() for a in s.A]} {[b.uint() for b in s.B]} {[c.uint() for c in s.C]}"
+    # rastreo de línea
+    def line_trace(s):
+        return f"A={[int(a) for a in s.A]} B={[int(b) for b in s.B]} C={[int(c) for c in s.C]}"
 
 def test_vector_adder():
     import random
@@ -30,5 +30,7 @@ def test_vector_adder():
         test_vector_table.append(A + B + C)
 
     run_test_vector_sim(VectorAdder(N), test_vector_table, cmdline_opts=None)
+    print("Todas las pruebas se completaron correctamente.")
+
 
 test_vector_adder()
