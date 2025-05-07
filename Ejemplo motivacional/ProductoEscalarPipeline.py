@@ -30,8 +30,12 @@ class ProductoEscalarPipelined( Component ):
 
         @update_ff
         def stage_1_multiply():
-            for i in range(s.nelems):
-                s.regs_multiply[i] <<= sext(s.a[i] * s.b[i], s.n_bits_out)
+            if s.reset:
+                for i in range(s.nelems):
+                    s.regs_multiply[i] <<= 0
+            else:
+                for i in range(s.nelems):
+                    s.regs_multiply[i] <<= sext(s.a[i] * s.b[i], s.n_bits_out)
             
         # @update_ff
         # def stage_2_sum_tree():
@@ -45,16 +49,21 @@ class ProductoEscalarPipelined( Component ):
 
         @update_ff
         def stage_2_sum_tree():
-            regs_aux = s.nelems
-            for i in range(s.num_levels):
-                aux = (regs_aux >> 1) 
-                for j in range(s.num_regs):
-                    if j < aux :
-                        if i == 0 :
-                            s.regs_sum_tree[i][j] <<= s.regs_multiply[j*2] + s.regs_multiply[j*2 + 1]
-                        else:
-                            s.regs_sum_tree[i][j] <<= s.regs_sum_tree[i-1][j*2] + s.regs_sum_tree[i-1][j*2 + 1]
-                regs_aux = aux
+            if s.reset:
+                for i in range(s.num_levels):
+                    for j in range(s.nelems):
+                        s.regs_sum_tree[i][j] <<= 0
+            else:
+                regs_aux = s.nelems
+                for i in range(s.num_levels):
+                    aux = (regs_aux >> 1) 
+                    for j in range(s.num_regs):
+                        if j < aux :
+                            if i == 0 :
+                                s.regs_sum_tree[i][j] <<= s.regs_multiply[j*2] + s.regs_multiply[j*2 + 1]
+                            else:
+                                s.regs_sum_tree[i][j] <<= s.regs_sum_tree[i-1][j*2] + s.regs_sum_tree[i-1][j*2 + 1]
+                    regs_aux = aux
                     
         @update
         def set_output():
@@ -72,7 +81,7 @@ class ProductoEscalarPipelined( Component ):
 def translate(dut):
     import os
 
-    module_name = "ProductoEscalarPipeline" 
+    module_name = "ProdcutoEscalarPipelined" 
 
     if os.path.exists(module_name):
         os.remove(module_name)
@@ -165,6 +174,7 @@ def test2():
     dut = ProductoEscalarPipelined(8, 16)
     dut.apply(DefaultPassGroup(linetrace=True))
     dut.sim_reset()
+
     vec_a = [1,2,3,4,5,6,7,8]
     vec_b = [9,10,11,12,13,14,15,16]
     
@@ -202,13 +212,8 @@ def test3():
     print(f"  Resultado: {int(dut.result.int())} == Esperado: {expected2} -> OK")
     #test(dut, expected, 16)
 
-
-
-# Ejecutar todos los tests
-if __name__ == "__main__":
-    test1()
-    test2()
-    test3()
-    #test_pe_pipelined_caso1()
-    #dut = ProductoEscalarPipelined(4)
-    #translate(dut)
+test1()
+test2()
+#test_pe_pipelined_caso1()
+# dut = ProductoEscalarPipelined(4)
+# translate(dut)
