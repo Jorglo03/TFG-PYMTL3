@@ -1,6 +1,6 @@
 from PIL import Image
 from laplacianPipelined import LaplacianPipelined
-from gaussianPipelined import GaussianPipelined  # Ensure this module exists and is correct
+from gaussianPipelined import GaussianPipelined 
 from pymtl3 import *
 def load_png(filename):
     """Carga una imagen BMP en escala de grises."""
