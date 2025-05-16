@@ -3,10 +3,10 @@ from skimage.metrics import peak_signal_noise_ratio as psnr
 from skimage.metrics import structural_similarity as ssim
 
 # Cargar imágenes (grises o RGB)
-img1 = cv2.imread('lenna_laplacianPyMTL.bmp', cv2.IMREAD_GRAYSCALE)
-img2 = cv2.imread('lenna_laplacian_SW.bmp', cv2.IMREAD_GRAYSCALE)
-img3 = cv2.imread('lenna_gaussianPyMTL.bmp', cv2.IMREAD_GRAYSCALE)
-img4 = cv2.imread('lenna_gaussian_SW.bmp', cv2.IMREAD_GRAYSCALE)
+img1 = cv2.imread('cameraman_laplacianPyMTL.bmp', cv2.IMREAD_GRAYSCALE)
+img2 = cv2.imread('cameraman_laplacian_SW.bmp', cv2.IMREAD_GRAYSCALE)
+img3 = cv2.imread('cameraman_gaussianPyMTL.bmp', cv2.IMREAD_GRAYSCALE)
+img4 = cv2.imread('cameraman_gaussian_SW.bmp', cv2.IMREAD_GRAYSCALE)
 # Calcular PSNR
 psnr_val = psnr(img1, img2)
 print(f'PSNR: {psnr_val:.2f} dB')

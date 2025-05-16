@@ -102,10 +102,10 @@ def laplacianPipelinePyMTL(image, width, height):
     return edges
 def main(input_file, output_file):
     image, width, height = load_png(input_file)
-    #processed_image = laplacianPipelinePyMTL(image, width, height)
+    #processed_image = gaussianPipelinePyMTL(image, width, height)
     processed_image = edge_detection(image, width, height)
     save_png(output_file, processed_image, width, height)
     print(f"Imagen procesada guardada en {output_file}. Height es {height} y su width es {width}")
 
 if __name__ == "__main__":
-    main("entrada.bmp", "1.bmp")
+    main("cameraman.bmp", "Cameraman_Laplacian_SW.bmp")
