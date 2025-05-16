@@ -2,7 +2,7 @@ import cv2
 from skimage.metrics import peak_signal_noise_ratio as psnr
 from skimage.metrics import structural_similarity as ssim
 
-# Cargar imágenes (grises o RGB)
+# Cargar imágenes
 img1 = cv2.imread('cameraman_laplacianPyMTL.bmp', cv2.IMREAD_GRAYSCALE)
 img2 = cv2.imread('cameraman_laplacian_SW.bmp', cv2.IMREAD_GRAYSCALE)
 img3 = cv2.imread('cameraman_gaussianPyMTL.bmp', cv2.IMREAD_GRAYSCALE)
