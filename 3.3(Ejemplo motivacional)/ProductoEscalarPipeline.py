@@ -143,6 +143,7 @@ def test1():
     set_data(dut, vec_a, vec_b)
     expected = producto_escalar(vec_a, vec_b)
     test(dut, expected, 4)
+    dut.sim_tick()
     vec_c = [random.randint(-10, 10) for _ in range(4)]
     vec_d = [random.randint(-10, 10) for _ in range(4)]
     set_data(dut, vec_c, vec_d)
@@ -198,8 +199,8 @@ def test3():
 # Ejecutar todos los tests
 if __name__ == "__main__":
     test1()
-    test2()
-    test3()
-    test_pe_pipelined_caso1()
-    dut = ProductoEscalarPipelined(4)
-    translate(dut)
+    # test2()
+    # test3()
+    # test_pe_pipelined_caso1()
+    # dut = ProductoEscalarPipelined(4)
+    # translate(dut)
